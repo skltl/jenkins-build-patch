@@ -10,15 +10,10 @@ else
   exit 1
 fi
 
-
-diff=$(git diff HEAD)
-
 tmpfile=$(mktemp)
-echo $diff > $tmpfile
-
+git diff HEAD > $tmpfile
 
 echo "trying to send file..."
-curl -X POST -v \
- -F "patch.diff=@$tmpfile" http://localhost:8080/job/MyPatchBuilder/buildWithParameters
+curl -X POST -v -F "patch.diff=@$tmpfile" http://localhost:8080/job/MyPatchBuilder/buildWithParameters
 
 rm $tmpfile
